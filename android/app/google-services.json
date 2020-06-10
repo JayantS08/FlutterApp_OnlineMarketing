@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "341667944691",
+    "firebase_url": "https://delilo.firebaseio.com",
+    "project_id": "delilo",
+    "storage_bucket": "delilo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341667944691:android:e5bf4cad7cea7efca57f86",
+        "android_client_info": {
+          "package_name": "com.example.delilo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341667944691-0noa09bev2l41k2g22dejg8vvfto3p52.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.delilo",
+            "certificate_hash": "4747a0ffafac69f4bafc47d428a99b55be9e3292"
+          }
+        },
+        {
+          "client_id": "341667944691-vhbffgedgvmhht0fpb83v6mdmnn7eg3m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc7e_EjdBQc7cev-TPCSvmb6FDDC6TQuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341667944691-vhbffgedgvmhht0fpb83v6mdmnn7eg3m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
