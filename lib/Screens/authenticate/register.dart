@@ -21,20 +21,95 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 bool _autoValidate = false;
 String _value;
 final _firestore = Firestore.instance;
+final _auth = FirebaseAuth.instance;
+final AuthService _auth1 = AuthService();
+var otp = new List(6);
+bool check =false;
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _auth = FirebaseAuth.instance;
+
+  final _phoneController = TextEditingController();
+  final _codeController = TextEditingController();
+
+  Future<bool> loginUser(String phone, BuildContext context) async {
+
+    _auth.verifyPhoneNumber(
+        phoneNumber: phone,
+        timeout: Duration(seconds: 60),
+        verificationCompleted: (AuthCredential credential) async {
+          Navigator.of(context).pop();
+
+          AuthResult result = await _auth.signInWithCredential(credential);
+
+          FirebaseUser user = result.user;
+
+          if (user != null) {
+            check = true;
+          } else {
+            print("Error");
+          }
+
+          //This callback would gets called when verification is done auto maticlly
+        },
+        verificationFailed: (AuthException exception) {
+          print(exception);
+        },
+        codeSent: (String verificationId, [int forceResendingToken]) {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Give the code?"),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      TextField(
+                        controller: _codeController,
+                      ),
+                    ],
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Confirm"),
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                      onPressed: () async {
+                        final code = _codeController.text.trim();
+                        AuthCredential credential =
+                        PhoneAuthProvider.getCredential(
+                            verificationId: verificationId, smsCode: code);
+
+                        AuthResult result =
+                        await _auth.signInWithCredential(credential);
+
+                        FirebaseUser user = result.user;
+
+                        if (user != null) {
+                          check = true;
+                        } else {
+                          print("Error");
+                        }
+                      },
+                    )
+                  ],
+                );
+              });
+        },
+        codeAutoRetrievalTimeout: null);
+  }
+
   String error ='';
+  String email ='';
+  String pass ='';
+  String name ='';
+  String address ='';
+  String phoneno ='';
   var viewportHeight;
   var viewportWidth;
 
   @override
   Widget build(BuildContext context) {
-    String email ='';
-    String pass ='';
-    String name ='';
-    String address ='';
-    String phoneno ='';
     viewportHeight = getViewportHeight(context);
     viewportWidth = getViewportWidth(context);
     return Scaffold(
@@ -64,6 +139,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: <Widget>[
                         SizedBox(
                           height: 20,
+                        ),
+                        Container(
+                          height: 145,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            image:DecorationImage(
+                                image: AssetImage('images/logo.png')),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         Text(
                           'Register',
@@ -117,27 +203,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             setState(() => phoneno = val);
                           },
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        new FlatButton(
+                          onPressed: (){
+                            final phone = phoneno.trim();
 
-                        _otpWidget(),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                'Resend OTP',
-                                style: TextStyle(
-                                    color: Colors.green, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
+                            loginUser(phone, context);
+                          },
+                          child: Text('Send OTP',
+                              style: TextStyle(color: Colors.green)),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         TextFormField(
                           validator: (val) => val.isEmpty ? 'Enter an Address' : null,
@@ -157,7 +236,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         TextFormField(
                           validator: (val) => val.isEmpty ? 'Enter your Password' : null,
+                          obscureText: true,
                           decoration: InputDecoration(
+
                             hintText: 'password',
                             prefixIcon: Icon(Icons.lock),
                             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -171,46 +252,151 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(
                           height: 10,
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3.0),
+                              child: OutlineButton(
+                                splashColor: Colors.deepPurpleAccent,
+                                onPressed: () async{
+                                  _auth1.signInWithFB(context).whenComplete(() {
+
+                                  });
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40)),
+                                highlightElevation: 0,
+                                borderSide: BorderSide(color: Colors.grey),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Image(image: AssetImage('images/j.png'), height: 20.0),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Register",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // _signInButtonG() ,
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3.0),
+                              child: OutlineButton(
+                                splashColor: Colors.deepPurpleAccent,
+                                onPressed: () async {
+                                  dynamic result = await _auth1.signInWithGoogle(context).whenComplete(() {
+
+                                  });
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40)),
+                                highlightElevation: 0,
+                                borderSide: BorderSide(color: Colors.grey),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Image(image: AssetImage('images/p.png'), height: 20.0),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "Register",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Expanded(
                           child: RoundButoon(
-                            color: Colors.deepPurple,
+                            color: Colors.green,
                             f: () async {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                print(
-                                    '$name $name $address $phoneno $email $pass');
+                              if(check)
+                                {
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    print(
+                                        '$name $name $address $phoneno $email $pass');
 
-                                try {
-                                  final newUser =
-                                  await _auth.createUserWithEmailAndPassword(
-                                      email: email.trim(), password: pass);
-                                  if (newUser != null) {
-                                    print('registered');
-                                    DocumentReference res = await _firestore.collection('credentials').add({
-                                      'Name': name,
-                                      'Mobile': phoneno,
-                                      'Email': email,
-                                      'Address': address,
-                                    });
-                                    print(res.documentID);
-                                    _auth.signOut();
-                                    Fluttertoast.showToast(
-                                        msg: "Registration Successful",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIos: 1,
+                                    try {
+                                      final newUser =
+                                      await _auth.createUserWithEmailAndPassword(
+                                          email: email.trim(), password: pass);
+                                      if (newUser != null) {
+                                        print('registered');
+                                        DocumentReference res = await _firestore.collection('credentials').add({
+                                          'Name': name,
+                                          'Mobile': phoneno,
+                                          'Email': email,
+                                          'Address': address,
+                                        });
+                                        print(res.documentID);
+                                        _auth.signOut();
+                                        Fluttertoast.showToast(
+                                            msg: "Registration Successful",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIos: 1,
 //                                      backgroundColor: Colors.whi,
 //                                      textColor: Colors.white,
-                                        fontSize: 10.0);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => owner()),
-                                    );
+                                            fontSize: 10.0);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => owner()),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      print(e);
+                                    }
                                   }
-                                } catch (e) {
-                                  print(e);
                                 }
-                              }
+                              else
+                                {
+                                  new AlertDialog(
+                                    title: Text('OTP incorrect'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text('Otp provided is incorrect. Please try again !!'),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text('Approve'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                }
                             },
                             name: 'Login',
                           ),
@@ -225,7 +411,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               MaterialPageRoute(builder: (context) => SignIn()),
                             );
                           },
-                          child: Text('Already have an Acoont ? Sign In',
+                          child: Text('Already have an Account ? Sign In',
                               style: TextStyle(color: Colors.black)),
                         ),
                       ],
@@ -236,30 +422,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ]
         )
 
-    );
-  }
-
-
-  Widget circle() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(viewportHeight * 01),
-      child: Container(
-          height: viewportHeight * 0.05,
-          width: viewportHeight * 0.05,
-          color: Colors.grey),
-    );
-  }
-
-  Widget _otpWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Text('OTP Received'),
-        circle(),
-        circle(),
-        circle(),
-        circle(),
-      ],
     );
   }
 }
