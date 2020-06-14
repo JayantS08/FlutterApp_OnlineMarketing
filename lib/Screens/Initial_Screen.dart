@@ -1,3 +1,4 @@
+import 'package:delilo/Screens/authenticate/owner_form.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/Screens/authenticate/Buyer_Login.dart';
 import 'package:delilo/Screens/authenticate/Owner_Login.dart';
@@ -83,7 +84,7 @@ class _initialState extends State<initial> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignIn()),
+                        MaterialPageRoute(builder: (context) => OwnerForm()),
                       );
                     },
                     child: Text(
