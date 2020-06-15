@@ -1,4 +1,5 @@
 import 'package:delilo/Screens/Signature.dart';
+import 'package:delilo/Screens/cheque_picker.dart';
 import 'package:delilo/utils/buttons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -222,7 +223,7 @@ class _BankDetailsState extends State<BankDetails> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MyHomePage(id:id)),
+                                    builder: (context) => ChequePick(id)),
                               );
                             }
                           },

@@ -104,7 +104,7 @@ class AuthService {
   Future<Null> signInWithFB(BuildContext context) async {
     final FacebookLoginResult result =
     await facebookSignIn.logIn(['email']);
-
+    print(result.status);
     switch (result.status)
     {
       case FacebookLoginStatus.error:
