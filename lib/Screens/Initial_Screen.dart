@@ -1,3 +1,6 @@
+import 'package:delilo/Screens/Delivery_boy_flow/Delivery_home.dart';
+import 'package:delilo/Screens/Delivery_boy_flow/delivery_form1.dart';
+import 'package:delilo/Screens/authenticate/owner_form.dart';
 import 'package:flutter/material.dart';
 import 'package:delilo/Screens/authenticate/Buyer_Login.dart';
 import 'package:delilo/Screens/authenticate/Owner_Login.dart';
@@ -83,7 +86,7 @@ class _initialState extends State<initial> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignIn()),
+                        MaterialPageRoute(builder: (context) => OwnerForm()),
                       );
                     },
                     child: Text(
@@ -93,6 +96,38 @@ class _initialState extends State<initial> {
                         color: Colors.black
                       ),
                     ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            height: 70,
+            bottom: 140,
+            right: 80,
+            child: Container(
+              width: 245,
+              child: Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.white)),
+                  color: Colors.white,
+                  textColor: Colors.deepPurple,
+                  padding: EdgeInsets.all(8.0),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DeliveryForm1()),
+                    );
+                  },
+                  child: Text(
+                    "I am a Delivery Person".toUpperCase(),
+                    style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black
+                    ),
+                  ),
                 ),
               ),
             ),
