@@ -37,19 +37,13 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
             FlatButton(
               child: Text('SUBMIT'),
               onPressed: () {
-                print(_tempMainColor.value);
-                print(_tempShadeColor);
-                print(_shadeColor.toString());
-                print(_mainColor.toString());
                 Navigator.of(context).pop();
                 setState(() {
                   _mainColor = _tempMainColor;
-
                 });
                 setState(() {
-                  print(_tempShadeColor);
                   _shadeColor = _tempShadeColor;
-
+                  colors.add(_shadeColor);
                 });
               },
             ),
@@ -65,13 +59,17 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
     _openDialog(
       "Pick Color",
       MaterialColorPicker(
+        onlyShadeSelection: true,
         colors: fullMaterialColors,
         selectedColor: _mainColor,
         onMainColorChange: (color) {
           setState(() {
-            colors.add(color);
             _tempMainColor = color;
-
+          });
+        },
+        onColorChange: (color){
+          setState(() {
+            _tempShadeColor=color;
           });
         },
       ),
@@ -482,23 +480,6 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
     );
   }
 }
-
-/*class TopPoster extends StatelessWidget {
-  final ImageProvider image;
-
-  TopPoster({this.image});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 350,
-      width: 500,
-      child: Image(
-        image: image,
-        fit: BoxFit.fitHeight,
-      ),
-    );
-  }*/
 
 class ImageUploadModel {
   bool isUploaded;
