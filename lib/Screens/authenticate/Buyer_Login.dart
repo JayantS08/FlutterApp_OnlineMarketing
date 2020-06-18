@@ -1,3 +1,4 @@
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/Buyer_Initialpage.dart';
 import 'package:delilo/Screens/authenticate/MobSignUP.dart';
 import 'package:delilo/Screens/authenticate/Owner_Login.dart';
 import 'package:delilo/Screens/authenticate/register.dart';
@@ -26,6 +27,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -112,7 +114,7 @@ class _SignInState extends State<SignIn> {
                           else {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => owner()),
+                              MaterialPageRoute(builder: (context) => BuyerInitPage()),
                             );
                           }
                         }

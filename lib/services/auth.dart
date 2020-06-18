@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/Buyer_Initialpage.dart';
 import 'package:delilo/Screens/authenticate/Owner_Login.dart';
 import 'package:delilo/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +89,7 @@ class AuthService {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return owner();
+          return BuyerInitPage();
         },
       ),
     );
@@ -123,7 +124,7 @@ class AuthService {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return owner();
+              return BuyerInitPage();
             },
           ),
         );

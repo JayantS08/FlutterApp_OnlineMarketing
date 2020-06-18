@@ -73,7 +73,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     FlatButton(
                       child: Text("Confirm"),
                       textColor: Colors.white,
-                      color: Colors.blue,
+                      color: Colors.green,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular((50))),
                       onPressed: () async {
                         final code = _codeController.text.trim();
                         AuthCredential credential =
@@ -87,8 +88,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         if (user != null) {
                           check = true;
+                          Navigator.of(context);
                         } else {
                           print("Error");
+                          Fluttertoast.showToast(
+                              msg: "Wrong OTP",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIos: 1,
+//                                      backgroundColor: Colors.whi,
+//                                      textColor: Colors.white,
+                              fontSize: 10.0);
                         }
                       },
                     )
@@ -348,6 +358,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       final newUser =
                                       await _auth.createUserWithEmailAndPassword(
                                           email: email.trim(), password: pass);
+                                      final user = newUser.user.uid.toString();
                                       if (newUser != null) {
                                         print('registered');
                                         DocumentReference res = await _firestore.collection('credentials').add({
@@ -355,6 +366,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           'Mobile': phoneno,
                                           'Email': email,
                                           'Address': address,
+                                          'uid':user,
                                         });
                                         print(res.documentID);
                                         _auth.signOut();
