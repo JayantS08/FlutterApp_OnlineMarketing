@@ -86,7 +86,7 @@ class _initialState extends State<initial> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => OwnerForm()),
+                        MaterialPageRoute(builder: (context) => OwnerLogin()),
                       );
                     },
                     child: Text(

@@ -380,7 +380,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             fontSize: 10.0);
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => owner()),
+                                          MaterialPageRoute(builder: (context) => SignIn()),
                                         );
                                       }
                                     } catch (e) {
