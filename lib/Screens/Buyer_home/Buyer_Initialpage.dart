@@ -1,16 +1,17 @@
-import 'package:delilo/Screens/BuyBeauty&Health.dart';
-import 'package:delilo/Screens/BuyDairy.dart';
-import 'package:delilo/Screens/BuyHousehold.dart';
-import 'package:delilo/Screens/BuyMobiles.dart';
-import 'package:delilo/Screens/BuyNearby.dart';
-import 'package:delilo/Screens/BuyParty.dart';
-import 'package:delilo/Screens/BuySports.dart';
-import 'package:delilo/Screens/BuyToys&Baby.dart';
-import 'package:delilo/Screens/BuyTravel.dart';
-import 'package:delilo/Screens/Buy_fashion.dart';
-import 'package:delilo/Screens/Buyer_cart.dart';
-import 'package:delilo/Screens/Buyer_homepage.dart';
-import 'package:delilo/Screens/Buyer_profile.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyBeauty&Health.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyDairy.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyHousehold.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyMobiles.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyNearby.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyParty.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuySports.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyToys&Baby.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyTravel.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/Buy_fashion.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/Buyer_cart.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/Buyer_homepage.dart';
+import 'package:delilo/Screens/Buyer_home/Buyer_profile.dart';
+import 'package:delilo/Screens/authenticate/owner_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -193,16 +194,10 @@ class _BuyerInitPageState extends State<BuyerInitPage> {
                   context, MaterialPageRoute(builder: (context) => Fashion())),
             ),
             DrawerTiles(
-              image: AssetImage("images/%.png"),
-              name: "Coupons",
-              ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Fashion())),
-            ),
-            DrawerTiles(
               image: AssetImage("images/Icon ionic-ios-person-add.png"),
               name: "Be a seller",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Fashion())),
+                  context, MaterialPageRoute(builder: (context) => OwnerForm())),
             ),
             DrawerTiles(
               image: AssetImage("images/Shape.png"),

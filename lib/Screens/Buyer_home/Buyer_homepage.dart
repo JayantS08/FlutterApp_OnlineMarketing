@@ -1,4 +1,4 @@
-import 'package:delilo/Screens/BuyNearby.dart';
+import 'file:///F:/Flutter%20Projetcs/delilo/lib/Screens/Buyer_home/BuyNearby.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

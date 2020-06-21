@@ -1,3 +1,4 @@
+import 'package:delilo/Screens/Buyer_home/Payment_gateway.dart';
 import 'package:flutter/material.dart';
 
 class BuyerCart extends StatefulWidget {
@@ -118,7 +119,12 @@ class _BuyerCartState extends State<BuyerCart> {
                 borderRadius: BorderRadius.circular(10.0),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Payment()),
+                    );
+                  },
                   minWidth: 320.0,
                   height: 42.0,
                   child: Text(

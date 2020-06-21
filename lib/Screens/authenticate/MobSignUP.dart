@@ -1,3 +1,4 @@
+import 'package:delilo/Screens/Buyer_home/Buyer_Initialpage.dart';
 import 'package:delilo/Screens/authenticate/Buyer_Login.dart';
 import 'package:delilo/Screens/authenticate/Owner_Login.dart';
 import 'package:delilo/utils/buttons.dart';
@@ -25,7 +26,7 @@ class LoginScreen extends StatelessWidget {
 
           if (user != null) {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => owner()));
+                context, MaterialPageRoute(builder: (context) => BuyerInitPage()));
           } else {
             print("Error");
           }
@@ -68,7 +69,7 @@ class LoginScreen extends StatelessWidget {
 
                         if (user != null) {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => owner()));
+                              MaterialPageRoute(builder: (context) => BuyerInitPage()));
                         } else {
                           print("Error");
                         }
