@@ -103,10 +103,10 @@ class _OwnerLoginState extends State<OwnerLogin> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          email = email+'@delilo.com';
-                          AuthResult result = await _auth
-                              .signInWithEmailAndPassword(email, password);
-                          String id = result.user.uid.toString();
+                          String email1 = email+'@delilo.com';
+                          dynamic result = await _auth
+                              .signInWithEmailAndPassword(email1, password);
+                          print(result);
                           if (result == null) {
                             setState(() {
                               error =
@@ -116,7 +116,7 @@ class _OwnerLoginState extends State<OwnerLogin> {
                           else {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => OwnerMenu(id)),
+                              MaterialPageRoute(builder: (context) => OwnerMenu(result)),
                             );
                           }
                         }

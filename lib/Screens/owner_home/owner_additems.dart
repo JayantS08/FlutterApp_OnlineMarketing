@@ -10,12 +10,17 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:uuid/uuid.dart';
 class OwnerAddItem extends StatefulWidget {
 /*  final User currentUser;
+
   OwnerAddItem({this.currentUser});*/
+String id;
+  OwnerAddItem(this.id);
   @override
-  _OwnerAddItemState createState() => _OwnerAddItemState();
+  _OwnerAddItemState createState() => _OwnerAddItemState(id);
 }
 
 class _OwnerAddItemState extends State<OwnerAddItem> {
+  var _categorySelected;
+
   List<Object> images = List<Object>();
   List<String> imagesURL = List<String>();
   Future<File> _imageFile;
@@ -27,10 +32,12 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
   Color _tempShadeColor;
   ColorSwatch _mainColor;
   Color _shadeColor;
-  final itemRef = Firestore.instance.collection('items');
+  final itemRef = Firestore.instance.collection('Mobile');
   final StorageReference storageRef = FirebaseStorage.instance.ref();
   String postId = Uuid().v4();
 
+  String id;
+  _OwnerAddItemState(this.id);
 
   Future<String> uploadImage(imageFile) async {
     StorageUploadTask uploadTask =
@@ -48,8 +55,34 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
   }
 
   createPostInFirestore() async{
-    await itemRef
-        .document("theDocumentID")
+
+    List<String> colorvalue = [];
+    for (var c=0; c < colors.length; c++){
+      Color color = colors[c];
+      String colorString = color.toString();
+      String colorS = colorString.split('(')[1].split(')')[0];
+      colorvalue.add(colorS);
+    }
+
+    var d = await Firestore.instance.collection(_categorySelected).document(id).get();
+    print(d.exists);
+    var data;
+    if(!d.exists) {
+      data = {
+        'itemCount': 1
+      };
+      await Firestore.instance.collection(_categorySelected).document(id).setData(data);
+    }
+    else if(d.data['itemCount'] != null){
+      data = {
+        'itemCount': d.data['itemCount'] + 1
+      };
+      await Firestore.instance.collection(_categorySelected).document(id).updateData(data);
+    }
+
+
+    await Firestore.instance.collection(_categorySelected)
+        .document(id)
         .collection(_categorySelected)
         .document(postId)
         .setData({
@@ -58,10 +91,14 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
       "shopName": "widget.currentUser.username",
       "productName": productName,
       "mediaUrl": imagesURL,
+      "price": price,
       "description": description,
-      "colorsAvailable": colors,
+      "colorsAvailable": colorvalue,
       "likes": {},
+      "isAvailable": true
     });
+
+    print('uploaded');
   }
   bool isUploading = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -69,7 +106,7 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
     setState(() {
       isUploading = true;
     });
-    await createAllUrls();
+//    await createAllUrls();
     await createPostInFirestore();
     setState(() {
       file = null;
@@ -78,7 +115,6 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
     });
 
   }
-
 
   void _openDialog(String title, Widget content) {
     showDialog(
@@ -240,7 +276,6 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
     });
   }
 
-  var _categorySelected;
   var _categories = [
     "Men's clothing",
     "Women's clothing",
@@ -474,6 +509,11 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: RawMaterialButton(
                             onPressed: () {
+                              print(_categorySelected);
+                              print(productName);
+                              print(price);
+                              print(description);
+                              print(colors);
                               handleSubmit();
                               Navigator.pop(context);
                             },
