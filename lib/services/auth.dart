@@ -82,11 +82,12 @@ class AuthService {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     final FirebaseUser user = authResult.user;
 
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
+    //assert(!user.isAnonymous);
+    //assert(await user.getIdToken() != null);
+    await user.getIdToken();
 
     final FirebaseUser currentUser = await _auth.currentUser();
-    assert(user.uid == currentUser.uid);
+    //assert(user.uid == currentUser.uid);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
