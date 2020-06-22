@@ -15,6 +15,7 @@ class _CategorisedItemsState extends State<CategorisedItems> {
 
   String id, category;
   int _filterValue = 0;
+  String uri;
   List <String> filteritem = ['All items', 'Out of stock'];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -113,10 +114,16 @@ class _CategorisedItemsState extends State<CategorisedItems> {
                   itemBuilder: (BuildContext context, index) {
 
                     List c = documents.elementAt(index).data['colorsAvailable'];
+                    List d = documents.elementAt(index).data['mediaUrl'];
+                    if(d.length==0)
+                      uri ="https://firebasestorage.googleapis.com/v0/b/delilo.appspot.com/o/no_image.jpg?alt=media&token=6d3528a5-96e4-4871-b3e5-a327616a9bcc";
+                    else
+                      uri = d[0];
                     List <Color> colors = [];
                     for(var i = 0; i < c.length; i++)
                       colors.add(Color(int.parse(c[i])));
                     print('colors = $colors');
+                    print(uri);
                     return Card(
                       elevation: 5,
                       color: Colors.white,
@@ -152,7 +159,17 @@ class _CategorisedItemsState extends State<CategorisedItems> {
                                 Text("out of stock")
                               ],
                             ),
+                          leading: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minWidth: 42,
+                              minHeight: 44,
+                              maxWidth: 42,
+                              maxHeight: 44,
+                            ),
+                            child: Image.network(uri, fit: BoxFit.cover),
                           ),
+                          ),
+
                       ),
                     );
                   },
