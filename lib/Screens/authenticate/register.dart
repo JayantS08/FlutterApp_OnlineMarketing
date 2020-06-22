@@ -145,214 +145,216 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             .of(context)
                             .size
                             .height),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 145,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            image:DecorationImage(
-                                image: AssetImage('images/logo.png')),
+                    child: Container(
+                      height: 800,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'Register',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an Name' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Name',
-                            prefixIcon: Icon(Icons.person),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                          Container(
+                            height: 145,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              image:DecorationImage(
+                                  image: AssetImage('images/logo.png')),
+                            ),
                           ),
-                          onChanged: (val) {
-                            setState(() => name = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            prefixIcon: Icon(Icons.email),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                          SizedBox(
+                            height: 5,
                           ),
-                          onChanged: (val) {
-                            setState(() => email = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an Mobile Number' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Mobile Number',
-                            prefixIcon: Icon(Icons.phone),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                          Text(
+                            'Register',
+                            style: TextStyle(fontSize: 40),
                           ),
-                          onChanged: (val) {
-                            setState(() => phoneno = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        new FlatButton(
-                          onPressed: (){
-                            final phone = phoneno.trim();
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (val) => val.isEmpty ? 'Enter an Name' : null,
+                            decoration: InputDecoration(
+                              hintText: 'Name',
+                              prefixIcon: Icon(Icons.person),
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              border:
+                              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                            ),
+                            onChanged: (val) {
+                              setState(() => name = val);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              prefixIcon: Icon(Icons.email),
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              border:
+                              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                            ),
+                            onChanged: (val) {
+                              setState(() => email = val);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (val) => val.isEmpty ? 'Enter an Mobile Number' : null,
+                            decoration: InputDecoration(
+                              hintText: 'Mobile Number',
+                              prefixIcon: Icon(Icons.phone),
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              border:
+                              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                            ),
+                            onChanged: (val) {
+                              setState(() => phoneno = val);
+                            },
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          new FlatButton(
+                            onPressed: (){
+                              final phone = phoneno.trim();
 
-                            loginUser(phone, context);
-                          },
-                          child: Text('Send OTP',
-                              style: TextStyle(color: Colors.green)),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an Address' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Address',
-                            prefixIcon: Icon(Icons.person_pin_circle),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                              loginUser(phone, context);
+                            },
+                            child: Text('Send OTP',
+                                style: TextStyle(color: Colors.green)),
                           ),
-                          onChanged: (val) {
-                            setState(() => address = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter your Password' : null,
-                          obscureText: true,
-                          decoration: InputDecoration(
-
-                            hintText: 'password',
-                            prefixIcon: Icon(Icons.lock),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                          SizedBox(
+                            height: 5,
                           ),
-                          onChanged: (val) {
-                            setState(() => pass = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
+                          TextFormField(
+                            validator: (val) => val.isEmpty ? 'Enter an Address' : null,
+                            decoration: InputDecoration(
+                              hintText: 'Address',
+                              prefixIcon: Icon(Icons.person_pin_circle),
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              border:
+                              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                            ),
+                            onChanged: (val) {
+                              setState(() => address = val);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (val) => val.isEmpty ? 'Enter your Password' : null,
+                            obscureText: true,
+                            decoration: InputDecoration(
 
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3.0),
-                              child: OutlineButton(
-                                splashColor: Colors.deepPurpleAccent,
-                                onPressed: () async{
-                                  _auth1.signInWithFB(context).whenComplete(() {
+                              hintText: 'password',
+                              prefixIcon: Icon(Icons.lock),
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              border:
+                              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                            ),
+                            onChanged: (val) {
+                              setState(() => pass = val);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
 
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40)),
-                                highlightElevation: 0,
-                                borderSide: BorderSide(color: Colors.grey),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Image(image: AssetImage('images/j.png'), height: 20.0),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "Register",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: OutlineButton(
+                                  splashColor: Colors.deepPurpleAccent,
+                                  onPressed: () async{
+                                    _auth1.signInWithFB(context).whenComplete(() {
+
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40)),
+                                  highlightElevation: 0,
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image(image: AssetImage('images/j.png'), height: 20.0),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            "Register",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            // _signInButtonG() ,
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3.0),
-                              child: OutlineButton(
-                                splashColor: Colors.deepPurpleAccent,
-                                onPressed: () async {
-                                  dynamic result = await _auth1.signInWithGoogle(context).whenComplete(() {
+                              // _signInButtonG() ,
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: OutlineButton(
+                                  splashColor: Colors.deepPurpleAccent,
+                                  onPressed: () async {
+                                    dynamic result = await _auth1.signInWithGoogle(context).whenComplete(() {
 
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40)),
-                                highlightElevation: 0,
-                                borderSide: BorderSide(color: Colors.grey),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Image(image: AssetImage('images/p.png'), height: 20.0),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "Register",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
+                                    });
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40)),
+                                  highlightElevation: 0,
+                                  borderSide: BorderSide(color: Colors.grey),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image(image: AssetImage('images/p.png'), height: 20.0),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            "Register",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
 
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Expanded(
-                          child: RoundButoon(
-                            color: Colors.green,
-                            f: () async {
-                              if(check)
-                                {
-                                  if (_formKey.currentState.validate()) {
-                                    _formKey.currentState.save();
-                                    print(
-                                        '$name $name $address $phoneno $email $pass');
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: RoundButoon(
+                              color: Colors.green,
+                              f: () async {
+                                if(check)
+                                  {
+                                    if (_formKey.currentState.validate()) {
+                                      _formKey.currentState.save();
+                                      print(
+                                          '$name $name $address $phoneno $email $pass');
 
                                     try {
                                       final newUser =
@@ -383,50 +385,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           MaterialPageRoute(builder: (context) => SignIn()),
                                         );
                                       }
-                                    } catch (e) {
-                                      print(e);
+                                    }
+                                    catch(e){
+                                      print("$e");
                                     }
                                   }
-                                }
-                              else
-                                {
-                                  new AlertDialog(
-                                    title: Text('OTP incorrect'),
-                                    content: SingleChildScrollView(
-                                      child: ListBody(
-                                        children: <Widget>[
-                                          Text('Otp provided is incorrect. Please try again !!'),
-                                        ],
+                                else
+                                  {
+                                    new AlertDialog(
+                                      title: Text('OTP incorrect'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Otp provided is incorrect. Please try again !!'),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text('Approve'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                }
-                            },
-                            name: 'Login',
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('Approve'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  }
+                              }},
+                              name: 'Login',
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        new FlatButton(
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignIn()),
-                            );
-                          },
-                          child: Text('Already have an Account ? Sign In',
-                              style: TextStyle(color: Colors.black)),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 10,
+                          ),
+                          new FlatButton(
+                            onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SignIn()),
+                              );
+                            },
+                            child: Text('Already have an Account ? Sign In',
+                                style: TextStyle(color: Colors.black)),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -33,17 +33,21 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
   ColorSwatch _mainColor;
   Color _shadeColor;
   final itemRef = Firestore.instance.collection('Mobile');
-  final StorageReference storageRef = FirebaseStorage.instance.ref();
+   //StorageReference storageRef = FirebaseStorage.instance.ref();
   String postId = Uuid().v4();
 
   String id;
   _OwnerAddItemState(this.id);
 
   Future<String> uploadImage(imageFile) async {
+    FirebaseStorage storage = new FirebaseStorage();
+    StorageReference storageRef = storage.ref();
+    
     StorageUploadTask uploadTask =
     storageRef.child("${_categorySelected}_$postId.jpg").putFile(imageFile);
     StorageTaskSnapshot storageSnap = await uploadTask.onComplete;
     String downloadUrl = await storageSnap.ref.getDownloadURL();
+    print(downloadUrl);
     return downloadUrl;
   }
 
@@ -107,7 +111,15 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
       isUploading = true;
     });
 //    await createAllUrls();
-    await createPostInFirestore();
+
+_image.forEach((element) async{ 
+  if(element!=null){
+    await uploadImage(element);
+  }
+});
+
+
+    try{await createPostInFirestore();}catch(e){}
     setState(() {
       file = null;
       isUploading = false;
@@ -241,10 +253,20 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
       getFileImage(index);
     });
   }
-
+List<File> _image =  List(4);
   void getFileImage(int index) async {
     _imageFile.then((file) async {
       setState(() {
+        _image[index] = file;
+        /*_image.forEach((element) {
+          if(element!=null){
+            uploadImage(element).then((value){
+          print(value);
+        });
+          }
+      
+     });*/
+        
         ImageUploadModel imageUpload = new ImageUploadModel();
         imageUpload.isUploaded = false;
         imageUpload.uploading = false;
@@ -254,7 +276,9 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
       });
     });
   }
+upload(){
 
+}
   getCircles(){
     List<Widget> imageCircles = [];
     for (int i = 0; i < 4; i++) {
