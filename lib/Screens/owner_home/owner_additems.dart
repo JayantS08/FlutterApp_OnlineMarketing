@@ -9,9 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:uuid/uuid.dart';
 class OwnerAddItem extends StatefulWidget {
-/*  final User currentUser;
-
-  OwnerAddItem({this.currentUser});*/
 String id;
   OwnerAddItem(this.id);
   @override
@@ -31,9 +28,11 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
   List<Color> colors  = [];
   Color _tempShadeColor;
   ColorSwatch _mainColor;
+  bool check = false;
+  bool check1 = false;
   Color _shadeColor;
+  List<File> _image =  List(4);
   final itemRef = Firestore.instance.collection('Mobile');
-   //StorageReference storageRef = FirebaseStorage.instance.ref();
   String postId = Uuid().v4();
 
   String id;
@@ -44,8 +43,9 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
     StorageReference storageRef = storage.ref();
     
     StorageUploadTask uploadTask =
-    storageRef.child("${_categorySelected}_$postId.jpg").putFile(imageFile);
+    storageRef.child("${_categorySelected}_$postId.jpg").putFile(_image.first);
     StorageTaskSnapshot storageSnap = await uploadTask.onComplete;
+    check = true;
     String downloadUrl = await storageSnap.ref.getDownloadURL();
     print(downloadUrl);
     return downloadUrl;
@@ -101,7 +101,8 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
       "likes": {},
       "isAvailable": true
     });
-
+    check1 = true;
+    Navigator.pop(context);
     print('uploaded');
   }
   bool isUploading = false;
@@ -114,17 +115,29 @@ class _OwnerAddItemState extends State<OwnerAddItem> {
 
 _image.forEach((element) async{ 
   if(element!=null){
-    await uploadImage(element);
+   String temp = await uploadImage(element);
+   imagesURL.add(temp);
   }
-});
-
-
+  if(check)
+  {
     try{await createPostInFirestore();}catch(e){}
     setState(() {
       file = null;
       isUploading = false;
       postId = Uuid().v4();
     });
+  }
+});
+
+    if(check)
+      {
+        try{await createPostInFirestore();}catch(e){}
+        setState(() {
+          file = null;
+          isUploading = false;
+          postId = Uuid().v4();
+        });
+      }
 
   }
 
@@ -248,12 +261,13 @@ _image.forEach((element) async{
   }
 
   Future _onAddImageClick(int index) async {
+    Future <File> img = ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      _imageFile = ImagePicker.pickImage(source: ImageSource.gallery);
+      _imageFile = img;
       getFileImage(index);
     });
   }
-List<File> _image =  List(4);
+
   void getFileImage(int index) async {
     _imageFile.then((file) async {
       setState(() {
@@ -276,6 +290,7 @@ List<File> _image =  List(4);
       });
     });
   }
+
 upload(){
 
 }
@@ -532,14 +547,15 @@ upload(){
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: RawMaterialButton(
-                            onPressed: () {
+                            onPressed: () async{
                               print(_categorySelected);
                               print(productName);
                               print(price);
                               print(description);
                               print(colors);
-                              handleSubmit();
-                              Navigator.pop(context);
+                              await handleSubmit();
+                              if(check1)
+                                Navigator.pop(context);
                             },
                             fillColor: Colors.green,
                             shape: StadiumBorder(),
