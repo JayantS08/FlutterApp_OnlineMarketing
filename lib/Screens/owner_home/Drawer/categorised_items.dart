@@ -16,6 +16,7 @@ class _CategorisedItemsState extends State<CategorisedItems> {
   String id, category;
   int _filterValue = 0;
   String uri;
+  String pri;
   List <String> filteritem = ['All items', 'Out of stock'];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -33,7 +34,7 @@ class _CategorisedItemsState extends State<CategorisedItems> {
           ),
           backgroundColor: Colors.greenAccent,
           title: Text(category,style: TextStyle(color: Colors.black),),
-      ),
+        ),
         floatingActionButton: RaisedButton(
           padding: EdgeInsets.fromLTRB(45, 15, 45, 15),
           shape: StadiumBorder(),
@@ -47,36 +48,37 @@ class _CategorisedItemsState extends State<CategorisedItems> {
                   builder: ((BuildContext context) => OwnerAddItem(id)))),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,      body: SafeArea(
-        child: ListView(
-          controller: ScrollController(),
-          shrinkWrap: true,
-          children: <Widget>[
-            Wrap(
-                alignment: WrapAlignment.spaceEvenly,
-                children: List<Widget>.generate(
-                    2,
-                        (int filterindex) {
-                      return ChoiceChip(
-                        padding: EdgeInsets.all(7),
-                        labelPadding: EdgeInsets.all(1),
-                        pressElevation: 5,
-                        shadowColor: Colors.greenAccent,
-                        selectedColor: Colors.greenAccent,
-                        label: Text(filteritem[filterindex]),
-                        selected: _filterValue == filterindex,
-                        onSelected: (bool isSelected) {
-                          setState(() {
-                            _filterValue = isSelected ? filterindex : _filterValue;
-                          });
-                        },
-                      );
-                    }
-                ).toList()
-            ),
-            _fetchItems(_filterValue),
-          ],
-        ),
-      )
+      child: ListView(
+        controller: ScrollController(),
+        shrinkWrap: true,
+        children: <Widget>[
+          Wrap(
+              alignment: WrapAlignment.spaceEvenly,
+              children: List<Widget>.generate(
+                  2,
+                      (int filterindex) {
+                    return ChoiceChip(
+                      padding: EdgeInsets.all(7),
+                      labelPadding: EdgeInsets.all(1),
+                      pressElevation: 5,
+                      shadowColor: Colors.greenAccent,
+                      selectedColor: Colors.greenAccent,
+                      label: Text(filteritem[filterindex]),
+                      selected: _filterValue == filterindex,
+                      onSelected: (bool isSelected) {
+                        setState(() {
+                          _filterValue = isSelected ? filterindex : _filterValue;
+                        });
+                      },
+                    );
+                  }
+              ).toList()
+          ),
+          _fetchItems(_filterValue),
+
+        ],
+      ),
+    )
     );
   }
 
@@ -105,45 +107,55 @@ class _CategorisedItemsState extends State<CategorisedItems> {
                 );
               }
               else
-              return Container(
-                padding: EdgeInsets.fromLTRB(15,0,15,0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  itemCount: documents.length,
-                  itemBuilder: (BuildContext context, index) {
+                return Container(
+                  padding: EdgeInsets.fromLTRB(15,0,15,0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: documents.length,
+                    itemBuilder: (BuildContext context, index) {
 
-                    List c = documents.elementAt(index).data['colorsAvailable'];
-                    List d = documents.elementAt(index).data['mediaUrl'];
-                    if(d.length==0)
-                      uri ="https://firebasestorage.googleapis.com/v0/b/delilo.appspot.com/o/no_image.jpg?alt=media&token=6d3528a5-96e4-4871-b3e5-a327616a9bcc";
-                    else
-                      uri = d[0];
-                    List <Color> colors = [];
-                    for(var i = 0; i < c.length; i++)
-                      colors.add(Color(int.parse(c[i])));
-                    print('colors = $colors');
-                    print(uri);
-                    return Card(
-                      elevation: 5,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      child: SwitchListTile(
+                      List c = documents.elementAt(index).data['colorsAvailable'];
+                      List d = documents.elementAt(index).data['mediaUrl'];
+                      if(d.length==0)
+                        uri ="https://firebasestorage.googleapis.com/v0/b/delilo.appspot.com/o/no_image.jpg?alt=media&token=6d3528a5-96e4-4871-b3e5-a327616a9bcc";
+                      else
+                        uri = d[0];
+                      List <Color> colors = [];
+                      for(var i = 0; i < c.length; i++)
+                        colors.add(Color(int.parse(c[i])));
+                      print('colors = $colors');
+                      print(uri);
+                      return Card(
+                        elevation: 5,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        child: SwitchListTile(
+                          secondary: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minWidth: 50,
+                              minHeight: 50,
+                              maxWidth: 60,
+                              maxHeight: 60,
+                            ),
+                            child: Image.network(uri, fit: BoxFit.cover),
+                          ),
+//                          activeThumbImage: ,
 //                        inactiveThumbImage:
-                        activeTrackColor: Colors.green,
-                        activeColor: Colors.greenAccent,
-                        value: documents.elementAt(index).data['isAvailable']
-                            ? true : false,
-                        onChanged: (isAvailable) =>
-                            _changeAvailability(isAvailable, documents.elementAt(index).data, index),
-                        title: Text('${documents.elementAt(index)['productName']}'),
-                        subtitle: ListTile(
-                            title: Text('Rate'),
+                          activeTrackColor: Colors.green,
+                          activeColor: Colors.greenAccent,
+                          value: documents.elementAt(index).data['isAvailable']
+                              ? true : false,
+                          onChanged: (isAvailable) =>
+                              _changeAvailability(isAvailable, documents.elementAt(index).data, index),
+                          title: Text('${documents.elementAt(index)['productName']}'),
+                          subtitle: ListTile(
+                            title: Text('Price: ${documents.elementAt(index)['price']}/-'),
                             subtitle: Row(
                               children: <Widget>[
                                 Container(
                                   height: 20,
-                                  width: 50,
+                                  width: 40,
                                   child: GridView.count(
                                     shrinkWrap: true,
                                     crossAxisCount: 1,
@@ -156,25 +168,15 @@ class _CategorisedItemsState extends State<CategorisedItems> {
                                     }).toList(),
                                   ),
                                 ),
-                                Text("out of stock")
                               ],
                             ),
-                          leading: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minWidth: 42,
-                              minHeight: 44,
-                              maxWidth: 42,
-                              maxHeight: 44,
-                            ),
-                            child: Image.network(uri, fit: BoxFit.cover),
-                          ),
                           ),
 
-                      ),
-                    );
-                  },
-                ),
-              );
+                        ),
+                      );
+                    },
+                  ),
+                );
             }
         }
       },
