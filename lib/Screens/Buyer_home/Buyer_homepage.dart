@@ -1,4 +1,4 @@
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyNearby.dart';
+import 'package:delilo/Screens/Buyer_home/BuyNearby.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

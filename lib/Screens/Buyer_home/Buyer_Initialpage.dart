@@ -1,15 +1,15 @@
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyBeauty&Health.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyDairy.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyHousehold.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyMobiles.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyNearby.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyParty.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuySports.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyToys&Baby.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/BuyTravel.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/Buy_fashion.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/Buyer_cart.dart';
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/Buyer_homepage.dart';
+import '../../Screens/Buyer_home/BuyBeauty&Health.dart';
+import '../../Screens/Buyer_home/BuyDairy.dart';
+import '../../Screens/Buyer_home/BuyHousehold.dart';
+import '../../Screens/Buyer_home/getItems.dart';
+import '../../Screens/Buyer_home/BuyNearby.dart';
+import '../../Screens/Buyer_home/BuyParty.dart';
+import '../../Screens/Buyer_home/BuySports.dart';
+import '../../Screens/Buyer_home/BuyToys&Baby.dart';
+import '../../Screens/Buyer_home/BuyTravel.dart';
+import '../../Screens/Buyer_home/Buy_fashion.dart';
+import '../../Screens/Buyer_home/Buyer_cart.dart';
+import '../../Screens/Buyer_home/Buyer_homepage.dart';
 import 'package:delilo/Screens/Buyer_home/Buyer_profile.dart';
 import 'package:delilo/Screens/authenticate/owner_form.dart';
 import 'package:flutter/cupertino.dart';
@@ -125,7 +125,7 @@ class _BuyerInitPageState extends State<BuyerInitPage> {
               image: AssetImage("images/Icon awesome-mobile-alt.png"),
               name: "Mobiles",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Mobiles())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('Mobile'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Group 418.png"),
@@ -137,43 +137,43 @@ class _BuyerInitPageState extends State<BuyerInitPage> {
               image: AssetImage("images/lamp.png"),
               name: "Household",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Household())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('Household'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Group 419.png"),
               name: "Beauty & Health",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => BeautyHealth())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('BeautyHealth'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Group 424.png"),
               name: "Toys & Baby products",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => ToyBaby())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('ToyBaby'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Group 420.png"),
               name: "Nearby Market",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Nearby())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('Nearby'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Group 421.png"),
               name: "Dairy Products",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Dairy())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('Dairy'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Group 422.png"),
               name: "Sports & more",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Sports())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('Sports'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Group 423.png"),
               name: "Party & gatherings",
               ontap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Party())),
+                  context, MaterialPageRoute(builder: (context) => GetDrawerList('Party'))),
             ),
             DrawerTiles(
               image: AssetImage("images/Icon material-card-travel.png"),

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'file:///E:/test/InternCWS/onlineMarket/FlutterApp_OnlineMarketing/lib/Screens/Buyer_home/Buyer_Initialpage.dart';
+import 'package:delilo/Screens/Buyer_home/Buyer_Initialpage.dart';
 import 'package:delilo/Screens/authenticate/Owner_Login.dart';
 import 'package:delilo/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
