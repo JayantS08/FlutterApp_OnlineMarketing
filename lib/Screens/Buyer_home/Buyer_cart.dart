@@ -1,48 +1,92 @@
 import 'package:delilo/Screens/Buyer_home/Payment_gateway.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BuyerCart extends StatefulWidget {
   @override
   _BuyerCartState createState() => _BuyerCartState();
 }
 
+final auth = FirebaseAuth.instance;
+int total=0;
+List <int> t = [];
+
 class _BuyerCartState extends State<BuyerCart> {
-  List<Widget> orders = [
-    Ord(
-      image: AssetImage("images/3.png"),
-      price: 700,
-      shop: "Shop Name",
-      quantity: 2,
-      item: "One piece dress for women office suit",
-      onPress: (){},
-    ),
-    Ord(
-      image: AssetImage("images/3.png"),
-      price: 700,
-      shop: "Shop Name",
-      quantity: 2,
-      item: "One piece dress for women office suit",
-      onPress: (){},
-    ),
-    Ord(
-      image: AssetImage("images/3.png"),
-      price: 700,
-      shop: "Shop Name",
-      quantity: 2,
-      item: "One piece dress for women office suit",
-      onPress: (){},
-    ),
-    Ord(
-      image: AssetImage("images/3.png"),
-      price: 700,
-      shop: "Shop Name",
-      quantity: 2,
-      item: "One piece dress for women office suit",
-      onPress: (){},
-    ),
-  ];
-  int total;
-  int getTotal(){
+
+  List ownerID = [];
+  int ownerIndex = 0;
+  String uri;
+  bool check = false;
+  bool check1 = false;
+  bool isFetched = false;
+  List<DocumentSnapshot> ds = [];
+
+  _fetchItems () {
+    if(isFetched){
+      if(ownerIndex < ownerID.length)
+        _fetchData( ownerID[ownerIndex]);
+      return showItems();
+    }
+    else {
+      _fetchOwner();
+      return Center(child: CircularProgressIndicator());
+    }
+  }
+
+  _fetchOwner () async{
+    var document = await Firestore.instance.collection("Cart").getDocuments();
+    print(document.documents.length);
+//    var details;
+    for (int i = 0; i < document.documents.length; i++) {
+      ownerID.add(document.documents.elementAt(i).documentID);
+      await _fetchData(document.documents.elementAt(i).documentID);
+    }
+  }
+
+  _fetchData(String documentID) async{
+    final FirebaseUser user = await auth.currentUser();
+    final uid = user.uid.toString();
+    print(uid);
+    var itemOwner = await Firestore.instance.collection("Cart")
+        .document(uid).collection("Items")
+        .getDocuments();
+    if(itemOwner.documents.length > 0) {
+      for (int i = 0; i < itemOwner.documents.length; i++)
+        ds.add(itemOwner.documents.elementAt(i));
+      setState(() {
+        isFetched = true;
+        ownerIndex++;
+      });
+    }
+    print(itemOwner.documents.length);
+  }
+  showItems() {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: ds.length,
+          itemBuilder: (BuildContext context, index) {
+            uri = ds.elementAt(index).data['mediaUrl'];
+            if(!check1)
+              {
+                total+=int.parse('${ds.elementAt(index)['price']}');
+                check1=true;
+              }
+            return Ord(
+              onPress: (){
+              },
+              image: Image.network(uri),
+              quantity: 1,
+              item: '${ds.elementAt(index)['productName']}',
+              price: int.parse('${ds.elementAt(index)['price']}'),
+            );
+          }
+      ),
+    );
+  }
+
+
+  /*int getTotal(){
     int total;
     for(int i=0;i<orders.length;i++){
       total = total + findqn(orders[i]);
@@ -59,7 +103,7 @@ class _BuyerCartState extends State<BuyerCart> {
       }
     }
     return res;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -86,15 +130,19 @@ class _BuyerCartState extends State<BuyerCart> {
                     fontSize: 30,
                   ),
                 ),
+                FlatButton(
+                  onPressed: (){
+                    setState(() {
+
+                    });
+                  },
+                  child: Icon(Icons.refresh,),
+                )
+
               ],
             ),
-            Container(
-              width: double.maxFinite,
-              height: (MediaQuery. of(context). size. height)-270,
-              child: ListView(
-                children: orders,
-              ),
-            ),
+            _fetchItems(),
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
               child: Divider(color: Colors.red, thickness: 2),
@@ -104,9 +152,9 @@ class _BuyerCartState extends State<BuyerCart> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("Your Order"),
+                  Text("Total order"),
                   Text(
-                    "Rs 1344",
+                    total.toString(),
                     style: TextStyle(color: Colors.green),
                   ),
                 ],
@@ -146,11 +194,12 @@ class _BuyerCartState extends State<BuyerCart> {
 class Ord extends StatefulWidget {
   final String item;
   final int price;
-  final String shop;
   final int quantity;
-  final ImageProvider image;
+  final Image image;
   final Function onPress;
-  Ord({this.item,this.price,this.shop,this.quantity,this.image,this.onPress});
+
+  Ord({this.item, this.price, this.quantity, this.image, this.onPress});
+
   @override
   _OrdState createState() => _OrdState();
 }
@@ -179,7 +228,7 @@ class _OrdState extends State<Ord> {
                       borderRadius:
                       BorderRadius.only(topLeft: Radius.circular(10))),
                   child: Image(
-                    image: widget.image,
+                    image: widget.image.image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -205,15 +254,11 @@ class _OrdState extends State<Ord> {
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Text(
-                              "\$${widget.price * (widget.quantity+idq)}",
+                              "\₹${widget.price * (widget.quantity + idq)}",
                             ),
                           )
                         ],
                       ),
-                    ),
-                    Text(
-                      widget.shop,
-                      style: TextStyle(fontSize: 15),
                     ),
                     Row(
                       children: <Widget>[
@@ -225,14 +270,18 @@ class _OrdState extends State<Ord> {
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              idq = idq+ 1;
-                              setState(() {});
+                              idq = idq + 1;
+                              print(widget.price);
+                              total += widget.price;
+                              setState(() {
+
+                              });
                             },
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text((widget.quantity+idq).toString()),
+                          child: Text((widget.quantity + idq).toString()),
                         ),
                         CircleAvatar(
                           backgroundColor: Colors.grey[300],
@@ -242,8 +291,14 @@ class _OrdState extends State<Ord> {
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              (widget.quantity+idq)<1 ? idq=idq: idq=  idq - 1;
-                              setState(() {});
+                              (widget.quantity + idq) < 1
+                                  ? idq = idq
+                                  : idq = idq - 1;
+                                if((widget.quantity + idq) >= 1)
+                                  total -= widget.price;
+                                setState(() {
+
+                                });
                             },
                           ),
                         )
@@ -259,18 +314,3 @@ class _OrdState extends State<Ord> {
     );
   }
 }
-
-/*class Order extends StatelessWidget {
-  final String item;
-  int price;
-  final String shop;
-  int quantity;
-  final ImageProvider image;
-  final Function onPress;
-  Order({this.item,this.price,this.shop,this.quantity,this.image,this.onPress});
-
-  @override
-  Widget build(BuildContext context) {
-    return
-  }
-}*/
