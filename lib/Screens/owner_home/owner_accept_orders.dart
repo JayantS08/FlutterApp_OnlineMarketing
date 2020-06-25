@@ -42,11 +42,15 @@ class _AcceptOrdersState extends State<AcceptOrders> {
       length: 6,
       
           child: Scaffold(
-        appBar: AppBar(title: Text("Accepting Orders"),
+        appBar: AppBar(title: Text("Accepting Orders",style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        
         bottom: TabBar(
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.black,
           isScrollable: true,
           tabs: [
-          Tab(text: 'All',),
+          //Tab(text: 'All',),
           Tab(text: 'Packing',),
           Tab(text: 'Ready',),
           Tab(text: 'Picked',),
@@ -58,12 +62,12 @@ class _AcceptOrdersState extends State<AcceptOrders> {
         ),
         
         body: TabBarView(children: [
-_buildbodyAll(packing, 'packing'),
+//_buildbodyAll(packing, 'packing'),
 _buildBody(packing, 'packing'),
 _buildBody(ready, 'ready'),
-_buildBody(picked ,'packing'),
-_buildBody(shipping, 'packing'),
-_buildBody(delivered, 'packing'),
+_buildBody(picked ,'picked'),
+_buildBody(shipping, 'shipping'),
+_buildBody(delivered, 'delivered'),
 
         ])
         ),
@@ -94,43 +98,53 @@ return Container(child: Text('hello'),);
   return ListView.builder(itemBuilder: (BuildContext context, int index){
     if(snpshot.data.documents.length==0){
 DocumentSnapshot snps;
- return packingContainer(snps);      
+ return Container(child:Center(child: Text('No items'),));
+ //packingContainer(snps,'Ready');      
     }
 if(type=='packing'){
   
-  return packingContainer(data[index]);
+  return packingContainer(data[index],'Ready');
 }
 if(type=='ready'){
   
   return readyContainer(data[index]);
 }
+if(type=='picked'){
+  return packingContainer(data[index],'Picked');
+}
+if(type=='shipping'){
+  return packingContainer(data[index],'shipping');
+}
+if(type=='delivered'){
+  return packingContainer(data[index],'delivered');
+}
 DocumentSnapshot snps;
- return packingContainer(snps);
+ return packingContainer(snps,'Ready');
   },itemCount: snpshot.data.documents.length==0?1:snpshot.data.documents.length,);
 
  }
  DocumentSnapshot snps;
- return packingContainer(snps);
+ return packingContainer(snps,'Ready');
     }
   );
 }
 
-
+var ref  = Firestore.instance;
 //Packing Container
 //
 
-  Widget packingContainer(DocumentSnapshot dataDoc) {
+  Widget packingContainer(DocumentSnapshot dataDoc,String buttonText) {
     Map data;
     try{ data=dataDoc.data;}catch(e){
       print("$e");
     }
-    int id;
+    String id;
     String orderName, clientName, ADDRESS  , clientmobileNumber;
     bool isPaid=false;
     double orderBill;
     try{
       
-      id = data['id'];
+      id = data==null?'id':data['id'].toString();
       orderName = data['orderName'];
       clientName = data['clientName'];
       
@@ -205,12 +219,16 @@ DocumentSnapshot snps;
             height:40,
             width: 500,
             
-            child: RaisedButton(
+            child:  RaisedButton(
               shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(21)),
               elevation: 15,
               color: Colors.green,
-              child: Text("Order Ready"),
-              onPressed: (){}),
+              child: Text("Order $buttonText"),
+              onPressed: (){
+                ref.collection(buttonText).document(data==null?'id': data['id']).setData(data);
+                upload(buttonText, dataDoc?.documentID??'id');
+              }
+              ),
           )    ],
             ),
           
@@ -318,7 +336,7 @@ Widget readyContainer(DocumentSnapshot dataDoc) {
               elevation: 15,
               color: Colors.green,
               child: Text("Order delivery"),
-              onPressed: (){}),
+              onPressed: getfunction('ready', data)),
           )    ],
             ),
           
@@ -330,3 +348,63 @@ Widget readyContainer(DocumentSnapshot dataDoc) {
 }
 
 
+////////////////////
+///
+///
+
+
+
+
+
+
+
+
+
+getfunction(String operation,Map<dynamic,dynamic>data){
+ switch(operation.toLowerCase()){
+   case 'packing':
+   return onPackingTap(data);
+   break;
+   case 'ready':
+   return onreadyTap(data);
+   break;
+   case 'picked':
+   return onPickedTap(data);
+   break;
+   case 'shipping':
+   return onShippingTap(data);
+   break;
+   case 'delivered':
+   return onDeliveredTap();
+   break;
+   default:
+   return (){};
+ }
+}
+
+onreadyTap(Map<dynamic,dynamic>data){
+  //upload('picked', data);
+}
+
+onPickedTap(Map<dynamic,dynamic>data){
+  //upload('shipping', data);
+}
+
+onShippingTap(Map<dynamic,dynamic>data){
+  //upload('delivered', data);
+}
+
+onDeliveredTap(){
+  
+}
+
+onPackingTap(Map<dynamic,dynamic>data){
+  //upload('ready', data);
+}
+
+upload(String coll, String id)async{
+  var ref = Firestore.instance;
+ // data??=new Map<String,dynamic>();
+  var result =await ref.collection(coll).document(id).delete();
+  
+}

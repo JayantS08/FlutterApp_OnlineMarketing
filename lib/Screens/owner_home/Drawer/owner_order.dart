@@ -1,3 +1,4 @@
+import 'package:delilo/Screens/owner_home/owner_accept_orders.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,7 +11,7 @@ class OwnerOrder extends StatefulWidget {
 }
 
 class _OwnerOrderState extends State<OwnerOrder> {
-
+  String ownId;
   final _item = TextEditingController();
   final _name = TextEditingController();
 
@@ -85,7 +86,12 @@ class _OwnerOrderState extends State<OwnerOrder> {
               FlatButton(
                 child: Text("Edit"),
                 onPressed: (){
-
+if(name[i].toString().toLowerCase()=='order'){
+  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>AcceptOrders(ownId??'id'),
+                ));
+}
                 },
               )
             ],
