@@ -38,25 +38,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
   List <Widget> categoryPage = [
     OwnerFashion(), OwnerMen(), OwnerWomen(), OwnerKids()];
-
-////  final _item = TextEditingController();
-////  final _name = TextEditingController();
-////
-////  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-////  bool _autoValidate = false;
-////  String _value;
-////  final _firestore = Firestore.instance;
-////  final _auth = FirebaseAuth.instance;
-////  var newname = '';
-////  var newitem = 0;
-////  var name = new List(100);
-////  var items = new List(100);
-////  var date = new List(100);
-////  int n = 1;
-////  final AuthService _auth1 = AuthService();
-////  var otp = new List(6);
-////  bool check = false;
-
   int _filterValue = 1;
 
 
@@ -334,8 +315,6 @@ class _OwnerMenuState extends State<OwnerMenu> {
       "Men's clothing",
       "Women's clothing",
       "Kid's wear",
-      "Mobile",
-      "Laptop",
       "Electronic",
       "Household",
       "Beauty",
@@ -376,41 +355,3 @@ class _OwnerMenuState extends State<OwnerMenu> {
 
 //end of class
 }
-
-
-
-
-//void _dialog(BuildContext context)
-//{
-//  showDialog(
-//      context: context,
-//      barrierDismissible: false,
-//      builder: (context) {
-//        return AlertDialog(
-//          title: Text("Select the category name or create new one."),
-//          content: Column(
-//            mainAxisSize: MainAxisSize.min,
-//            children: <Widget>[
-//              TextField(
-//                controller: _name,
-//              ),
-//              SizedBox(height: 10,)
-//            ],
-//          ),
-//          actions: <Widget>[
-//            FlatButton(
-//              child: Text("Confirm"),
-//              textColor: Colors.white,
-//              color: Colors.green,
-//              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular((50))),
-//              onPressed: (){
-//                name[n+1]=_name.text.trim().toString();
-//                items[n+1]=_item.text.trim().toString();
-//                n++;
-//                Navigator.of(context);
-//              },
-//            )
-//          ],
-//        );
-//      });
-//}

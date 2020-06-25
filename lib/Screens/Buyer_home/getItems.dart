@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delilo/Screens/Buyer_home/details_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -113,8 +114,6 @@ class _GetDrawerListState extends State<GetDrawerList> {
                   ],
                 ),
               ),
-
-
     );
   }
 
@@ -122,6 +121,7 @@ class _GetDrawerListState extends State<GetDrawerList> {
     if(isFetched){
       if(ownerIndex < ownerID.length)
         _fetchData(category, ownerID[ownerIndex]);
+      print("yes");
       return showItems();
     }
     else {
@@ -172,7 +172,9 @@ class _GetDrawerListState extends State<GetDrawerList> {
               colors.add(Color(int.parse(c[i])));
             print('colors = $colors');
               return ClothIcon(
-                ontap: (){},
+                ontap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: ((BuildContext context) => DetailedItem(ds.elementAt(index).data))));
+                },
                 img: Image.network(uri),
                 name: '${ds.elementAt(index)['productName']}',
                 price: int.parse('${ds.elementAt(index)['price']}'),

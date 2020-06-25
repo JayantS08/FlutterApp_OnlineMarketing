@@ -105,7 +105,7 @@ class _SignInState extends State<SignIn> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             dynamic result = await _auth
-                                .signInWithEmailAndPassword(email, password);
+                                .signInWithEmailAndPassword(email.trim(), password);
                             if (result == null) {
                               setState(() {
                                 error =
@@ -115,7 +115,7 @@ class _SignInState extends State<SignIn> {
                             else {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => SignIn()),
+                                MaterialPageRoute(builder: (context) => BuyerInitPage()),
                               );
                             }
                           }
