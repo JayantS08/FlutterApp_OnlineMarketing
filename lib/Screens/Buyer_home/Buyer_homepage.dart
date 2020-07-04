@@ -25,108 +25,110 @@ class _BuyerHomePageState extends State<BuyerHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Theme(
-                data: ThemeData(
-                  primaryColor: Colors.green,
-                  primaryColorDark: Colors.green,
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
-                    ),
-                    hintText: 'Search for products, shops',
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.green,
-                        size: 30,
+    return  SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Theme(
+                  data: ThemeData(
+                    primaryColor: Colors.green,
+                    primaryColorDark: Colors.green,
+                  ),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                      ),
+                      hintText: 'Search for products, shops',
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.green,
+                          size: 30,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                        borderRadius: BorderRadius.circular(32.0),
                       ),
                     ),
-                    contentPadding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
-                      borderRadius: BorderRadius.circular(32.0),
-                    ),
+                    onChanged: (val) {
+                      setState(() => search = val);
+                    },
                   ),
-                  onChanged: (val) {
-                    setState(() => search = val);
-                  },
                 ),
               ),
-            ),
-            Container(
-              height:  (MediaQuery. of(context). size. height)-200,
-              width: double.maxFinite,
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    height: 200,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: getOffers(),
+              Container(
+                height:  (MediaQuery. of(context). size. height)-200,
+                width: double.maxFinite,
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      height: 200,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: getOffers(),
+                      ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                        child: RawMaterialButton(
-                          shape: StadiumBorder(),
-                          fillColor: Colors.green,
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Nearby()));
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              "Nearby Shops",
-                              style: TextStyle(color: Colors.white),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          child: RawMaterialButton(
+                            shape: StadiumBorder(),
+                            fillColor: Colors.green,
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Nearby()));
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Text(
+                                "Nearby Shops",
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      )
-                    ],
-                  ),
-                  ShopNear(
-                    ontap: (){},
-                    shopName: "Shop Name",
-                    productSelling: "Mobiles",
-                    image: AssetImage("images/Union 1.png"),
-                    rating: 4.5,
-                    distance: 1.5,
-                  ),
-                  ShopNear(
-                    ontap: (){},
-                    shopName: "Shop Name",
-                    productSelling: "Mobiles",
-                    image: AssetImage("images/Union 1.png"),
-                    rating: 4.5,
-                    distance: 1.5,
-                  ),
-                  ShopNear(
-                    ontap: (){},
-                    shopName: "Shop Name",
-                    productSelling: "Mobiles",
-                    image: AssetImage("images/Union 1.png"),
-                    rating: 4.5,
-                    distance: 1.5,
-                  ),
-                ],
+                        SizedBox(
+                          width: 20,
+                        )
+                      ],
+                    ),
+                    ShopNear(
+                      ontap: (){},
+                      shopName: "Shop Name",
+                      productSelling: "Mobiles",
+                      image: AssetImage("images/Union 1.png"),
+                      rating: 4.5,
+                      distance: 1.5,
+                    ),
+                    ShopNear(
+                      ontap: (){},
+                      shopName: "Shop Name",
+                      productSelling: "Mobiles",
+                      image: AssetImage("images/Union 1.png"),
+                      rating: 4.5,
+                      distance: 1.5,
+                    ),
+                    ShopNear(
+                      ontap: (){},
+                      shopName: "Shop Name",
+                      productSelling: "Mobiles",
+                      image: AssetImage("images/Union 1.png"),
+                      rating: 4.5,
+                      distance: 1.5,
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-          ],
+            ],
 
+      ),
     );
   }
 }

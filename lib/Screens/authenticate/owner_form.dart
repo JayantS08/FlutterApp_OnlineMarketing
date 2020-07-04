@@ -113,171 +113,173 @@ class _OwnerFormState extends State<OwnerForm> {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Stack(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("images/back.png"),
-                    fit: BoxFit.cover,
-                    //colorFilter: ColorFilter.mode(Color.fromRGBO(192, 234, 218,1).withOpacity(0.6), BlendMode.softLight),
-                  ),
+              children: <Widget>[
+                Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/back.png"),
+            fit: BoxFit.cover,
+            //colorFilter: ColorFilter.mode(Color.fromRGBO(192, 234, 218,1).withOpacity(0.6), BlendMode.softLight),
+          ),
+        ),
                 ),
-              ),
-              Form(
-                key: _formKey,
-                autovalidate: _autoValidate,
-                child: SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery
-                            .of(context)
-                            .size
-                            .height),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 145,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            image:DecorationImage(
-                                image: AssetImage('images/logo.png')),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'FORM',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an Name' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Name',
-                            prefixIcon: Icon(Icons.person),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                          ),
-                          onChanged: (val) {
-                            setState(() => name = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            prefixIcon: Icon(Icons.email),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                          ),
-                          onChanged: (val) {
-                            setState(() => email = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an Mobile Number' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Mobile Number',
-                            prefixIcon: Icon(Icons.phone),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                          ),
-                          onChanged: (val) {
-                            setState(() => phoneno = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        new FlatButton(
-                          onPressed: (){
-                            final phone = phoneno.trim();
-
-                            loginUser(phone, context);
-                          },
-                          child: Text('Send OTP',
-                              style: TextStyle(color: Colors.green)),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          validator: (val) => val.isEmpty ? 'Enter an Address' : null,
-                          decoration: InputDecoration(
-                            hintText: 'Address',
-                            prefixIcon: Icon(Icons.person_pin_circle),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border:
-                            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-                          ),
-                          onChanged: (val) {
-                            setState(() => address = val);
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        RoundButoon(
-                            color: Colors.green,
-                            f: () async {
-                              if(check)
-                              {
-                                if (_formKey.currentState.validate()) {
-                                  _formKey.currentState.save();
-                                  print(
-                                      ' $name $address $phoneno $email');
-
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => ImagePick(name,email,phoneno,address,id)));
-                                }
-                              }
-                              else
-                              {
-                                new AlertDialog(
-                                  title: Text('OTP incorrect'),
-                                  content: SingleChildScrollView(
-                                    child: ListBody(
-                                      children: <Widget>[
-                                        Text('Otp provided is incorrect. Please try again !!'),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text('Approve'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              }
-                            },
-                            name: 'Continue..',
-                        ),
-                      ],
+                Form(
+        key: _formKey,
+        autovalidate: _autoValidate,
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                maxHeight: MediaQuery
+                    .of(context)
+                    .size
+                    .height),
+            child: SingleChildScrollView(
+                                    child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: 145,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      image:DecorationImage(
+                          image: AssetImage('images/logo.png')),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'FORM',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter an Name' : null,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                      prefixIcon: Icon(Icons.person),
+                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                    ),
+                    onChanged: (val) {
+                      setState(() => name = val);
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      prefixIcon: Icon(Icons.email),
+                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                    ),
+                    onChanged: (val) {
+                      setState(() => email = val);
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter an Mobile Number' : null,
+                    decoration: InputDecoration(
+                      hintText: 'Mobile Number',
+                      prefixIcon: Icon(Icons.phone),
+                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                    ),
+                    onChanged: (val) {
+                      setState(() => phoneno = val);
+                    },
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  new FlatButton(
+                    onPressed: (){
+                      final phone = phoneno.trim();
+
+                      loginUser(phone, context);
+                    },
+                    child: Text('Send OTP',
+                        style: TextStyle(color: Colors.green)),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TextFormField(
+                    validator: (val) => val.isEmpty ? 'Enter an Address' : null,
+                    decoration: InputDecoration(
+                      hintText: 'Address',
+                      prefixIcon: Icon(Icons.person_pin_circle),
+                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      border:
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                    ),
+                    onChanged: (val) {
+                      setState(() => address = val);
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  RoundButoon(
+                      color: Colors.green,
+                      f: () async {
+                        if(check)
+                        {
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            print(
+                                ' $name $address $phoneno $email');
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ImagePick(name,email,phoneno,address,id)));
+                          }
+                        }
+                        else
+                        {
+                          new AlertDialog(
+                            title: Text('OTP incorrect'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  Text('Otp provided is incorrect. Please try again !!'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('Approve'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                      name: 'Continue..',
+                  ),
+                ],
               ),
-            ]
-        )
+            ),
+          ),
+        ),
+                ),
+              ]
+          )
 
     );
   }

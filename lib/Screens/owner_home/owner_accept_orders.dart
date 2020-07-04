@@ -383,15 +383,15 @@ getfunction(String operation,Map<dynamic,dynamic>data){
 }
 
 onreadyTap(Map<dynamic,dynamic>data){
-  //upload('picked', data);
+  upload('picked', 'data');
 }
 
 onPickedTap(Map<dynamic,dynamic>data){
-  //upload('shipping', data);
+  upload('shipping', 'data');
 }
 
 onShippingTap(Map<dynamic,dynamic>data){
-  //upload('delivered', data);
+  upload('delivered', 'data');
 }
 
 onDeliveredTap(){
@@ -399,7 +399,7 @@ onDeliveredTap(){
 }
 
 onPackingTap(Map<dynamic,dynamic>data){
-  //upload('ready', data);
+  upload('ready', 'data');
 }
 
 upload(String coll, String id)async{
