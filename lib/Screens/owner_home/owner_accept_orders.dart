@@ -39,7 +39,7 @@ class _AcceptOrdersState extends State<AcceptOrders> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 5,
       
           child: Scaffold(
         appBar: AppBar(title: Text("Accepting Orders",style: TextStyle(color: Colors.black),),

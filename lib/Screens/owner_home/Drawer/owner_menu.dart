@@ -1,7 +1,10 @@
+import 'package:delilo/Screens/owner_home/Menu.dart';
+import 'package:delilo/Screens/owner_home/owner_accept_orders.dart';
 import 'package:delilo/Screens/owner_home/owner_items/fashion.dart';
 import 'package:delilo/Screens/owner_home/owner_items/kids.dart';
 import 'package:delilo/Screens/owner_home/owner_items/men.dart';
 import 'package:delilo/Screens/owner_home/owner_items/women.dart';
+import 'package:delilo/Screens/owner_home/payin.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -130,7 +133,9 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                //Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(
+                        builder: ((BuildContext context) => AcceptOrders(id))));
                 setState(() => drawerIndex = 0);
               },
             ),
@@ -147,7 +152,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(
+                        builder: ((BuildContext context) => MenuPage())));
                 setState(() => drawerIndex = 1);
               },
             ),
@@ -164,7 +170,8 @@ class _OwnerMenuState extends State<OwnerMenu> {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(
+                        builder: ((BuildContext context) => Payin())));
                 setState(() => drawerIndex = 2);
               },
             ),

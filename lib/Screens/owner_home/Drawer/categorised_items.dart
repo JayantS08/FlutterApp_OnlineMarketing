@@ -151,24 +151,27 @@ class _CategorisedItemsState extends State<CategorisedItems> {
                           title: Text('${documents.elementAt(index)['productName']}'),
                           subtitle: ListTile(
                             title: Text('Price: ${documents.elementAt(index)['price']}/-'),
-                            subtitle: Row(
-                              children: <Widget>[
-                                Container(
-                                  height: 20,
-                                  width: 40,
-                                  child: GridView.count(
-                                    shrinkWrap: true,
-                                    crossAxisCount: 1,
-                                    scrollDirection: Axis.horizontal,
-                                    children: List<Widget>.generate(colors.length, (int index){
-                                      return CircleAvatar(
-                                        radius: 5,
-                                        backgroundColor: colors[index],
-                                      );
-                                    }).toList(),
+                            subtitle: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                                child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 20,
+                                    width: 40,
+                                    child: GridView.count(
+                                      shrinkWrap: true,
+                                      crossAxisCount: 1,
+                                      scrollDirection: Axis.horizontal,
+                                      children: List<Widget>.generate(colors.length, (int index){
+                                        return CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor: colors[index],
+                                        );
+                                      }).toList(),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
 

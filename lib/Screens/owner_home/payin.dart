@@ -51,67 +51,70 @@ class _PayinState extends State<Payin> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               elevation: 10,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Product",
-                        style: TextStyle(color: Colors.black, fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Amount",
-                        style: TextStyle(color: Colors.black, fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Date",
-                        style: TextStyle(color: Colors.black, fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  for(int i=0;i<n;i++)
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                              child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       children: <Widget>[
                         SizedBox(
                           width: 10,
                         ),
-                        Text(product[i]),
+                        Text(
+                          "Product",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
                         SizedBox(
                           width: 10,
                         ),
-                        Text(amount[i]),
+                        Text(
+                          "Amount",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
                         SizedBox(
                           width: 10,
                         ),
-                        Text(date[i]),
-                        SizedBox(
-                          width: 10,
+                        Text(
+                          "Date",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                         SizedBox(
-                          height: 10,
+                          width: 10,
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    for(int i=0;i<n;i++)
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(product[i]),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(amount[i]),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(date[i]),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      )
 
-                ],
+                  ],
+                ),
               )),
         ]));
   }
