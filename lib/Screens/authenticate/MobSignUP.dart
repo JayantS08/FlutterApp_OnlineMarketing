@@ -152,8 +152,8 @@ class LoginScreen extends StatelessWidget {
                             child: RoundButoon(
                               name:"LOGIN",
                               f: () {
-                                final phone = _phoneController.text.trim();
-
+                                String phones = _phoneController.text.trim();
+                                  final phone = '+91'+phones;
                                 loginUser(phone, context);
                               },
                               color: Colors.green,

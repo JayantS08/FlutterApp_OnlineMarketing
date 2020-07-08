@@ -170,7 +170,7 @@ class _BuyerCartState extends State<BuyerCart> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Payment()),
+                      MaterialPageRoute(builder: (context) => Payment(ownerID,ds)),
                     );
                   },
                   minWidth: 320.0,
