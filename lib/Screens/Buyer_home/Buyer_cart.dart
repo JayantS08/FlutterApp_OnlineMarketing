@@ -1,4 +1,5 @@
 import 'package:delilo/Screens/Buyer_home/Payment_gateway.dart';
+import 'package:delilo/Screens/owner_home/Menu.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,74 +15,74 @@ List <int> t = [];
 
 class _BuyerCartState extends State<BuyerCart> {
 
-  List ownerID = [];
-  int ownerIndex = 0;
   String uri;
+  String uid;
   bool check = false;
   bool check1 = false;
   bool isFetched = false;
-  List<DocumentSnapshot> ds = [];
+  var clr = Firestore.instance;
+  List <DocumentSnapshot> cart = [];
+  FirebaseAuth auth = FirebaseAuth.instance;
+  List ownerId = [];
 
-  _fetchItems () {
-    if(isFetched){
-      if(ownerIndex < ownerID.length)
-        _fetchData( ownerID[ownerIndex]);
-      return showItems();
-    }
-    else {
-      _fetchOwner();
-      return Center(child: CircularProgressIndicator());
-    }
-  }
 
-  _fetchOwner () async{
-    var document = await Firestore.instance.collection("Cart").getDocuments();
-    print(document.documents.length);
-//    var details;
-    for (int i = 0; i < document.documents.length; i++) {
-      ownerID.add(document.documents.elementAt(i).documentID);
-      await _fetchData(document.documents.elementAt(i).documentID);
-    }
-  }
+  fatchCart() {
 
-  _fetchData(String documentID) async{
-    final FirebaseUser user = await auth.currentUser();
-    final uid = user.uid.toString();
-    print(uid);
-    var itemOwner = await Firestore.instance.collection("Cart")
-        .document(uid).collection("Items")
-        .getDocuments();
-    if(itemOwner.documents.length > 0) {
-      for (int i = 0; i < itemOwner.documents.length; i++)
-        ds.add(itemOwner.documents.elementAt(i));
-      setState(() {
-        isFetched = true;
-        ownerIndex++;
-      });
-    }
-    print(itemOwner.documents.length);
-  }
-  showItems() {
-    return Expanded(
-      child: ListView.builder(
-          itemCount: ds.length,
-          itemBuilder: (BuildContext context, index) {
-            uri = ds.elementAt(index).data['mediaUrl'];
-            if(!check1)
-              {
-                total+=int.parse('${ds.elementAt(index)['price']}');
-                check1=true;
-              }
-            return Ord(
-              onPress: (){
-              },
-              image: Image.network(uri),
-              quantity: 1,
-              item: '${ds.elementAt(index)['productName']}',
-              price: int.parse('${ds.elementAt(index)['price']}'),
+    return FutureBuilder<QuerySnapshot>(
+        future: clr.collection('Cart').document(uid).collection('Items').getDocuments(),
+        builder: (BuildContext context,AsyncSnapshot<QuerySnapshot>snpshot){
+          if(snpshot.connectionState==ConnectionState.waiting){
+            return Center(
+              child: CircularProgressIndicator(),
             );
           }
-      ),
+          if(snpshot.hasData){
+            cart.clear();
+            cart  = snpshot.data.documents;
+            return ListView.builder(
+              shrinkWrap: true,
+              controller: ScrollController(),
+              itemCount: snpshot.data.documents.length==0?1:snpshot.data.documents.length,
+              itemBuilder: (BuildContext context, int index){
+                return showItems(cart);
+              },
+            );
+          }
+          return Center(
+            child: Text("No Items Available"),
+          );
+        }
+    );
+
+  }
+
+  showItems(List<DocumentSnapshot> data) {
+
+    return ListView.builder(
+        shrinkWrap: true,
+        controller: ScrollController(),
+        itemCount: data.length,
+        itemBuilder: (BuildContext context, index) {
+          ownerId.add(data.elementAt(index).data['ownerID']);
+          uri = data.elementAt(index).data['mediaUrl'];
+          if(!check1)
+            {
+              total+=int.parse('${data.elementAt(index)['price']}');
+              check1=true;
+            }
+          return Ord(
+            uid:uid,
+            index: index,
+            items: cart,
+            onPress: (){
+
+            },
+            image: Image.network(uri),
+            quantity: 1,
+            item: '${data.elementAt(index)['productName']}',
+            price: int.parse('${data.elementAt(index)['price']}'),
+          );
+        }
     );
   }
 
@@ -106,107 +107,238 @@ class _BuyerCartState extends State<BuyerCart> {
   }*/
 
   @override
+  void initState() {
+    _fetchUses();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  _fetchUses() async{
+    final FirebaseUser user = await auth.currentUser();
+    uid = user.uid.toString();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                MaterialButton(
-                  onPressed: () {},
-                  child: Container(
-                    height: 60,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("images/o.png"), fit: BoxFit.cover),
+        child: SingleChildScrollView(
+                  child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  MaterialButton(
+                    onPressed: () {},
+                    child: Container(
+                      height: 60,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("images/o.png"), fit: BoxFit.cover),
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  "My Cart",
-                  style: TextStyle(
-                    fontSize: 30,
-                  ),
-                ),
-                FlatButton(
-                  onPressed: (){
-                    setState(() {
-
-                    });
-                  },
-                  child: Icon(Icons.refresh,),
-                )
-
-              ],
-            ),
-            _fetchItems(),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
-              child: Divider(color: Colors.red, thickness: 2),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Total order"),
                   Text(
-                    total.toString(),
-                    style: TextStyle(color: Colors.green),
+                    "My Cart",
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
                   ),
+                  FlatButton(
+                    onPressed: (){
+                      setState(() {
+
+                      });
+                    },
+                    child: Icon(Icons.refresh,),
+                  )
+
                 ],
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(10.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Payment(ownerID,ds)),
-                    );
-                  },
-                  minWidth: 320.0,
-                  height: 42.0,
-                  child: Text(
-                    "Buy Now",
-                    style: TextStyle(
-                      color: Colors.white,
+              fatchCart(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 20),
+                child: Divider(color: Colors.red, thickness: 2),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Total order"),
+                    Text(
+                      total.toString(),
+                      style: TextStyle(color: Colors.green),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Material(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(10.0),
+                  elevation: 5.0,
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Payment(ownerId, cart)),
+                      );
+                    },
+                    minWidth: 320.0,
+                    height: 42.0,
+                    child: Text(
+                      "Buy Now",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+Widget builds({BuildContext context,Function onPress,Image image,int idq,int price,item,quantity,itemsPassed,index}) {
+    
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
+      child: GestureDetector(
+        onTap: onPress,
+        child: Card(
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          elevation: 5,
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 5.0),
+                child: Container(
+                  height: 120,
+                  width: 110,
+                  decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.only(topLeft: Radius.circular(10))),
+                  child: Image(
+                    image: image.image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                height: 110,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: 210,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              item,
+                              maxLines: 2,
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(
+                              "\₹${price * (quantity + idq)}",
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundColor: Colors.grey[300],
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              idq = idq + 1;
+                              print(price);
+                              total += price;
+                              setState(() {
+
+                              });
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text((quantity + idq).toString()),
+                        ),
+                        CircleAvatar(
+                          backgroundColor: Colors.grey[300],
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.remove,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              
+                              
+                              (quantity + idq) < 1
+                                  ? idq = idq
+                                  : idq = idq - 1;
+                                if((quantity + idq) >= 1)
+                                  total -= price;
+                                  if(quantity+idq==0)
+                                  {
+                                    itemsPassed.removeAt(index);
+                                  }
+                                setState(() {
+
+                                });
+                            },
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }
 
 class Ord extends StatefulWidget {
+  String uid;
   final String item;
   final int price;
   final int quantity;
   final Image image;
   final Function onPress;
-
-  Ord({this.item, this.price, this.quantity, this.image, this.onPress});
+  int index;
+  List<DocumentSnapshot> items;
+  Ord({this.item, this.price, this.quantity, this.image, this.onPress,this.index,this.items,this.uid});
 
   @override
-  _OrdState createState() => _OrdState();
+  _OrdState createState() => _OrdState(index,items);
 }
 
 class _OrdState extends State<Ord> {
   int idq = 0;
-
+  int index;
+  List<DocumentSnapshot> itemsPassed;
+  _OrdState(this.index,this.itemsPassed);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -291,11 +423,18 @@ class _OrdState extends State<Ord> {
                               color: Colors.black,
                             ),
                             onPressed: () {
+                              
+                              
                               (widget.quantity + idq) < 1
                                   ? idq = idq
                                   : idq = idq - 1;
                                 if((widget.quantity + idq) >= 1)
                                   total -= widget.price;
+                                  if(widget.quantity+idq==0)
+                                  {
+                                    itemsPassed.removeAt(index);
+                                    update();
+                                  }
                                 setState(() {
 
                                 });
@@ -313,4 +452,12 @@ class _OrdState extends State<Ord> {
       ),
     );
   }
+update(){
+  var ref = Firestore.instance;
+  itemsPassed.forEach((element) { 
+ref.collection('Cart').document(widget.uid).collection('Items').document(element.documentID).delete();
+  });
+  print('updated');
+  
+}
 }
